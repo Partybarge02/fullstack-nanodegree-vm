@@ -8,8 +8,8 @@
 
 --Create the database tournament:
 
-drop database if exists tournament;
-create database tournament;
+DROP DATABASE if exists tournament;
+CREATE DATABASE tournament;
 --connects to the tournament database, drops connection to previous database
 \c tournament; 
 
@@ -17,17 +17,17 @@ create database tournament;
 
 --Table Players - players id and fullname:
 
-create table Players(
-	player_id serial primary key,
-	full_name text);
+CREATE TABLE Players(
+	player_id SERIAL PRIMARY KEY,
+	full_name TEXT);
 
 --A match has an id, and the id of a winner and a loser (which 
 --have a foreign key constraint to Players)
 
-create table Matches(
-	match_id serial primary key,
-	winner_id integer references players(player_id),
-	loser_id integer references players(player_id));
+CREATE TABLE Matches(
+	match_id SERIAL PRIMARY KEY,
+	winner_id INTEGER REFERENCES players(player_id),
+	loser_id INTEGER REFERENCES players(player_id));
 
 
 

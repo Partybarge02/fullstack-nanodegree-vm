@@ -3,7 +3,6 @@
 # tournament.py -- implementation of a Swiss-system tournament
 #
 import psycopg2
-import bleach
 
 def connect():
     """Connect to the PostgreSQL database.  Returns a database dbconnect."""
@@ -42,9 +41,9 @@ def registerPlayer(name):
     Args:
       name: the player's full name (need not be unique).
     """
-    clean_name = bleach.clean(name,)
+    name = (name,)
     dbconnect, cursor = connect()
-    cursor.execute ("INSERT INTO Players (full_name) VALUES (%s)", (clean_name,))
+    cursor.execute ("INSERT INTO Players (full_name) VALUES (%s)", (name,))
     dbconnect.commit()
     dbconnect.close()
 
@@ -98,12 +97,10 @@ def swissPairings():
         id2: the second player's unique id
         name2: the second player's name
     """
-    dbconnect, cursor = connect()
     rankings = playerStandings()
     match_pairs = []
     for id in range(0,len(rankings)-1,2):
         pair = (rankings[id][0],rankings[id][1],rankings[id+1][0],rankings[id+1][1])
         match_pairs.append(pair)
-    dbconnect.close()
     return match_pairs
 
